@@ -5,6 +5,7 @@ from selenium.webdriver.edge.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import getpass
 
 
 def main():
@@ -35,7 +36,7 @@ def open_reddit(url):
 
     # User inputs username and password
     usernameInput = input("Username: ")
-    passwordInput = input("Password: ")
+    passwordInput = getpass.getpass("Password: ")
 
     # Sends the user's inputs into those field
     usernameField.send_keys(usernameInput)
