@@ -1,51 +1,42 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
-import getpass
-
+from time import sleep
+from getpass import getpass
+from open_reddit import open_reddit
 
 def main():
-    url = "https://www.reddit.com/login/"
-    open_reddit(url)
-
-def open_reddit(url):
-    # Correct path to your Edge WebDriver executable
-    edge_driver_path = "C:/Users/ruben/webdrivers/edgedriver_win64/msedgedriver.exe"
+    url = "https://www.reddit.com/"
+    driver = open_reddit(url)
     
-    # Set up Edge options
-    edge_options = Options()
-    edge_options.add_argument('--ignore-certificate-errors')
-    edge_options.add_argument('--ignore-ssl-errors')
+    # This will wait until the login button on the homepage is clickable
+    wait = WebDriverWait(driver, 10)
+    login_button = wait.until(EC.element_to_be_clickable((By.ID, "login-button")))
+    login_button.click()
 
-    # Initialize the WebDriver with options
-    service = Service(edge_driver_path)
-    driver = webdriver.Edge(service=service, options=edge_options)
-
-    driver.get(url)
-
-    # This will wait until these fields are visible
-    wait = WebDriverWait(driver, 5)
+    # Wait until username and password fields in the modal are visible
     usernameField = wait.until(EC.presence_of_element_located((By.ID, "login-username")))
     passwordField = wait.until(EC.presence_of_element_located((By.ID, "login-password")))
 
-    time.sleep(5)
+    sleep(5)
 
     # User inputs username and password
     usernameInput = input("Username: ")
-    passwordInput = getpass.getpass("Password: ")
+    passwordInput = getpass("Password: ")
 
-    # Sends the user's inputs into those field
+    # Sends the user's inputs into those fields
     usernameField.send_keys(usernameInput)
     passwordField.send_keys(passwordInput)
+
+
+    passwordField.send_keys(Keys.ENTER)
+
+    sleep(10)
 
     # Keep the browser open until manually closed
     input("Press Enter to exit and close the browser...")
     driver.quit()
 
 
-if __name__ == "__main__":
-    main()
+main()
