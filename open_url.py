@@ -6,10 +6,10 @@ from selenium.webdriver.edge.options import Options
 def main():
 
     url = "https://www.reddit.com/"
-    open_reddit(url)
+    open_url(url)
 
 
-def open_reddit(url):
+def open_url(url):
     # Correct path to your Edge WebDriver executable
     edge_driver_path = "C:/Users/ruben/webdrivers/edgedriver_win64/msedgedriver.exe"
     
